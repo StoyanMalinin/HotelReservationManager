@@ -1,0 +1,32 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using HotelReservationsManager;
+@using HotelReservationsManager.Controllers;
+@using HotelReservationsManager.Controllers.Models;
+
+<h1> Welcome to the Dashboard, @HomeController.loggedUser.username <h1>
+
+    @if (HomeController.loggedUser.isAdmin == true)
+    {
+        <html>
+        <a asp-action="ManageUsers" asp-controller="Dashboard"> Manage users </a> |
+        <a asp-action="ManageRooms" asp-controller="Dashboard"> Manage rooms </a> |
+        <a asp-action="ManageClients" asp-controller="Dashboard"> Manage clients </a> |
+        <a asp-action="SeeReservations" asp-controller="Dashboard"> See reservations </a> |
+    </html>
+}
+else
+{
+    <html>
+    <a asp-action="ManageClients" asp-controller="Dashboard"> Manage clients </a> |
+    <a asp-action="SeeReservations" asp-controller="Dashboard"> See reservations </a> |
+    <a asp-action="ManageRooms" asp-controller="Dashboard"> See rooms </a>
+    </html>
+}
+
+    <br>
+    <a asp-action="MakeReservation1" asp-controller="Dashboard"> Make a reservation </a>
+
+
+    <br> </br>
+    <input type="button" value="Logout" onclick="location.href='@Url.Action("logout", "Dashboard")'" />
+

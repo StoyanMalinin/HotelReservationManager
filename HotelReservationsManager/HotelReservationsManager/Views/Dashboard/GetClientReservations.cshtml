@@ -1,0 +1,81 @@
+<style>
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
+@model HotelReservationsManager.Controllers.Models.ClientReservationsDashboardViewModel
+
+<p> There are <b>@Model.Items.Count</b> matches for <b>@Model.client.firstName @Model.client.lastName </b> </p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                id
+            </th>
+            <th>
+                RoomNumber
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                allInclusive
+            </th>
+            <th>
+                breakfast
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @item.id
+                </td>
+                <td>
+                    @item.room.number
+                </td>
+                <td>
+                    @item.user.username
+                </td>
+                <td>
+                    @item.allInclusive
+                </td>
+                <td>
+                    @item.breakfast
+                </td>
+            </tr>
+        }
+    </tbody>
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.Pager.PagesCount; i++)
+        {
+            <li class="page-item @(i == Model.Pager.CurrentPage ? "active" : "")">
+                <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
+</table>
+
+<br> </br>
+<input type="button" value="Go back to Clients" onclick="location.href='@Url.Action("ManageClients", "Dashboard")'" />
+
+

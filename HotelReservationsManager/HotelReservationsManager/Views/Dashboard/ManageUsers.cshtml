@@ -1,0 +1,94 @@
+<style>
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{ ViewData["Title"] = "Users"; }
+
+<p>
+    <a asp-action="CreateUser" asp-controller="Dashboard">Create New</a>
+</p>
+
+<form asp-action="ManageUsers" asp-controller="Dashboard">
+    <div class="form-group">
+        <label asp-for="usernameFilter" class="control-label"></label>
+        <input asp-for="usernameFilter" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Apply filters" class="btn btn-primary" />
+    </div>
+</form>
+
+<table class="table">
+    @model HotelReservationsManager.Controllers.Models.UserDashBoardViewModel
+    <thead>
+        <tr>
+            <th>
+                id
+            </th>
+            <th>
+                username
+            </th>
+            <th>
+                FirstName
+            </th>
+            <th>
+                LastName
+            </th>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+        <tr>
+            <td>
+                @item.id
+            </td>
+            <td>
+                @item.username
+            </td>
+            <td>
+                @item.firstName
+            </td>
+            <td>
+                @item.thirdName
+            </td>
+            @if (HotelReservationsManager.Controllers.HomeController.loggedUser.isAdmin == false) continue;
+            <td>
+                <a asp-action="EditUser" asp-controller="Dashboard" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="deleteUser" asp-controller="Dashboard" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.Pager.PagesCount; i++)
+        {
+            <li class="page-item @(i == Model.Pager.CurrentPage ? "active" : "")">
+                <a asp-route-Pager.CurrentPage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
+</table>
+
+<br> </br>
+<input type="button" value="Go back to the Dashboard" onclick="location.href='@Url.Action("Dashboard", "Home")'" />
